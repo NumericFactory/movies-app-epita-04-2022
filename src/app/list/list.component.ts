@@ -9,8 +9,6 @@ import { MovieService } from '../services/movie.service';
 export class ListComponent implements OnInit {
 
   movies:Array<any> = []
-  url:string = 'https://api.themoviedb.org/3/discover/movie?api_key=efdeb661aaa006b1e4f36f990a5fd8fd&language=fr'
-
   /* injecter un objet http de la class HttpClient*/ 
   constructor(private movieSvc:MovieService) { }
 

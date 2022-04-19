@@ -16,7 +16,7 @@ export class MovieService {
   currentPage:number = 1
   private _url:string = 'https://api.themoviedb.org/3/discover/movie?api_key=efdeb661aaa006b1e4f36f990a5fd8fd&language=fr&page='+this.currentPage;
   /*
-    les subects et behaviorSubjects sont des Observable
+    les subects et behaviorSubjects sont des Observable particuliers
     - on peut s'abonner à cette source via la méthode .subcribe()
     - on peut pousser une nouvelle donnée via la methode .next(value)
   */
