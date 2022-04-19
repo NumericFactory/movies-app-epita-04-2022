@@ -4,7 +4,7 @@
 */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -25,10 +25,16 @@ export class MovieService {
   constructor(private http:HttpClient ) { }
 
   /* 
-    
+    rôle : getter de _movies$
+    return un Observable 
+    Nos components peuvent consommer : 
+    > this.movieSvc.movies$.subscribe()
   */
   get movies$() {
-    return this._movies$.asObservable()
+    return this._movies$.asObservable();
+    // on retourne un Observable
+    // nous ne souhaitons pas exposer directement 
+    // le subject et sa méthode de modification (.next())
   }
 
   set movies$(movies:any) {
