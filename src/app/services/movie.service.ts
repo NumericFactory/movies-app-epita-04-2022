@@ -4,7 +4,8 @@
 */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
+import { MovieModel } from '../models/movie.model';
 
 @Injectable({
   providedIn: 'root'
@@ -45,9 +46,16 @@ export class MovieService {
     > ET charger en valeur de movies$, la réponse (le tableau d'objets movies)
   */
   public getMoviesFromApi():void {
-     this.http.get(this._url+'&page='+this._currentPage).subscribe(
+     this.http.get(this._url+'&page='+this._currentPage)
+     .pipe( 
+        map( (apiResponse:any) => 
+          apiResponse.results.map( (movie:any) => new MovieModel(movie))
+        ) 
+      ) // fin pipe() retourne un Observable
+     .subscribe(
        (response:any) => {
-         this._movies$.next(response.results)
+         console.log(response)
+         this._movies$.next(response)
         }
      )
   }
