@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
+import { ThisReceiver } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
+import { MovieService } from '../services/movie.service';
 
 @Component({
   selector: 'app-list',
@@ -12,10 +14,18 @@ export class ListComponent implements OnInit {
   url:string = 'https://api.themoviedb.org/3/discover/movie?api_key=efdeb661aaa006b1e4f36f990a5fd8fd&language=fr'
 
   /* injecter un objet http de la class HttpClient*/ 
-  constructor(private http:HttpClient) { }
+  constructor(private movieSvc:MovieService) { }
 
   ngOnInit(): void {
-    this.http.get(this.url).subscribe( (response:any) => this.movies = response.results )
+   
+    // 1 fais la request
+    this.movieSvc.getMoviesFromApi();
+    
+    // 2 on s'abonne à movies$
+    this.movieSvc.movies$.subscribe( 
+      (movies:any) => this.movies = movies
+    );
+
   }
 
   getUrlImage(movieImageString:string) {
