@@ -22,7 +22,7 @@ export class MovieService {
     - on peut pousser une nouvelle donnée via la methode .next(value)
   */
  
-  private _movies$:BehaviorSubject<any> = new BehaviorSubject([])
+  private _movies$ = new BehaviorSubject<MovieModel[]>([])
 
   constructor(private http:HttpClient ) { }
 
@@ -32,7 +32,7 @@ export class MovieService {
     Nos components peuvent consommer : 
     > this.movieSvc.movies$.subscribe()
   */
-  get movies$():Observable<any> {
+  get movies$():Observable<MovieModel[]> {
     return this._movies$.asObservable();
     // on retourne un Observable
     // nous ne souhaitons pas exposer directement 
