@@ -18,10 +18,9 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
    
-    // 1 fais la request
+    // 1 on fait la request HTTP à theMovieDB
     this.movieSvc.getMoviesFromApi();
-    
-    // 2 on s'abonne à movies$
+    // 2 on s'abonne à movies$ (un Observable qui contient les movies)
     this.movieSvc.movies$.subscribe( (data:any) => this.movies = data );
 
   }
