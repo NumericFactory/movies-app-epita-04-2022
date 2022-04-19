@@ -13,7 +13,9 @@ export class ListComponent implements OnInit {
  
   movies:Array<MovieModel> = []
   /* injecter un objet http de la class HttpClient*/ 
-  constructor(private movieSvc:MovieService) { }
+  constructor(private movieSvc:MovieService) { 
+    console.log(this)
+  }
 
   ngOnInit(): void {
 

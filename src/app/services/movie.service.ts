@@ -69,9 +69,15 @@ export class MovieService {
    // 0 incrementer this.currentPage;
    this._currentPage += 1
    // 1 faire la request des 20 films suivants (page suivante)
-   this.http.get(this._url+'&page='+this._currentPage).subscribe( (response:any) => {
+   this.http.get(this._url+'&page='+this._currentPage)
+   .pipe( 
+      map( (apiResponse:any) => 
+        apiResponse.results.map( (movie:any) => new MovieModel(movie))
+      ) 
+    ) // fin pipe() retourne un Observable
+   .subscribe( (response:any) => {
      // 2 construire le tableau de TOUS les films
-     let allMovies = [...this._movies$.getValue(), ...response.results];
+     let allMovies = [...this._movies$.getValue(), ...response];
      // 3 pousser la nouvelle donnée (tous les films) dans _movies$ (.next())
      this._movies$.next(allMovies);
    })
