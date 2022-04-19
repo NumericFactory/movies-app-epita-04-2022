@@ -23,4 +23,8 @@ export class ListComponent implements OnInit {
     return 'https://image.tmdb.org/t/p/w500'+movieImageString
   }
 
+  getNextMoviesOnAction() {
+    
+  }
+
 }
