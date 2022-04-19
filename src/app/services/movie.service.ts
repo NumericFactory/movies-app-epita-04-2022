@@ -13,7 +13,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 // qui peuvent être consommées par tous les component 
 export class MovieService {
 
-  currentPage:number = 1
+  private _currentPage:number = 1
   private _url:string = 'https://api.themoviedb.org/3/discover/movie?api_key=efdeb661aaa006b1e4f36f990a5fd8fd&language=fr';
   /*
     les subjects et behaviorSubjects sont des Observable particuliers
@@ -45,8 +45,10 @@ export class MovieService {
     > ET charger en valeur de movies$, la réponse (le tableau d'objets movies)
   */
   public getMoviesFromApi() {
-     this.http.get(this._url+'&page='+this.currentPage).subscribe(
-       (response:any) => this._movies$.next(response.results)
+     this.http.get(this._url+'&page='+this._currentPage).subscribe(
+       (response:any) => {
+         this._movies$.next(response.results)
+        }
      )
   }
   /*
@@ -56,11 +58,15 @@ export class MovieService {
   */
   getNextMoviesFromApi() {
    // 0 incrementer this.currentPage;
+   this._currentPage += 1
    // 1 faire la request des 20 films suivants (page suivante)
-   // 2 construire le tableau de TOUS les films : 
-      // - en récupérant la data dans _movies$, (la méthode .getValue() )
-      // - en ajoutant les nouveaux films dans le tableau des films
-   // 3 pousser la nouvelle donnée (tous les films) dans _movies$ (.next())
+   this.http.get(this._url+'&page='+this._currentPage).subscribe( (response:any) => {
+     // 2 construire le tableau de TOUS les films
+     let allMovies = [...this._movies$.getValue(), ...response.results];
+     // 3 pousser la nouvelle donnée (tous les films) dans _movies$ (.next())
+     this._movies$.next(allMovies);
+   })
+  
   }
 
 

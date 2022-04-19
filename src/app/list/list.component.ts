@@ -19,12 +19,16 @@ export class ListComponent implements OnInit {
     this.movieSvc.movies$.subscribe( (data:any) => this.movies = data );
   }
 
-  getUrlImage(movieImageString:string) {
-    return 'https://image.tmdb.org/t/p/w500'+movieImageString
+  getUrlImage(movieImageString:string | null ) {
+    return (movieImageString!=null &&movieImageString!='') 
+            ? 'https://image.tmdb.org/t/p/w500'+movieImageString
+            : 'https://via.placeholder.com/500x400.png?text=no+image'
   }
 
+  /* Au clic sur "films suivants" */
   getNextMoviesOnAction() {
-    
+    // executer la méthode .getNextMoviesFromApi() du movieSvc
+    this.movieSvc.getNextMoviesFromApi();
   }
 
 }
