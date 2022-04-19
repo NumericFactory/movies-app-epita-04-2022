@@ -21,6 +21,7 @@ export class MovieService {
     - on peut s'abonner à cette source via la méthode .subscribe()
     - on peut pousser une nouvelle donnée via la methode .next(value)
   */
+ 
   private _movies$:BehaviorSubject<any> = new BehaviorSubject([])
 
   constructor(private http:HttpClient ) { }
@@ -53,7 +54,7 @@ export class MovieService {
         ) 
       ) // fin pipe() retourne un Observable
      .subscribe(
-       (response:any) => {
+       (response:Array<MovieModel>) => {
          console.log(response)
          this._movies$.next(response)
         }
@@ -70,12 +71,13 @@ export class MovieService {
    this._currentPage += 1
    // 1 faire la request des 20 films suivants (page suivante)
    this.http.get(this._url+'&page='+this._currentPage)
+   // pipe : permet de transformer un Observable et retourne un Observable
    .pipe( 
       map( (apiResponse:any) => 
         apiResponse.results.map( (movie:any) => new MovieModel(movie))
       ) 
     ) // fin pipe() retourne un Observable
-   .subscribe( (response:any) => {
+   .subscribe( (response:Array<MovieModel>) => {
      // 2 construire le tableau de TOUS les films
      let allMovies = [...this._movies$.getValue(), ...response];
      // 3 pousser la nouvelle donnée (tous les films) dans _movies$ (.next())

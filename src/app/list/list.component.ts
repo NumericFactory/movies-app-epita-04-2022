@@ -27,14 +27,14 @@ export class ListComponent implements OnInit {
     this.movieSvc.movies$.subscribe( (data:any) => this.movies = data );
   }
 
-  getUrlImage(movieImageString:string | null ) {
+  getUrlImage(movieImageString:string | null ):string {
     return (movieImageString!=null &&movieImageString!='') 
             ? 'https://image.tmdb.org/t/p/w500'+movieImageString
             : 'https://via.placeholder.com/500x281.png?text=no+image'
   }
 
   /* Au clic sur "films suivants" */
-  getNextMoviesOnAction() {
+  getNextMoviesOnAction():void {
     // executer la méthode .getNextMoviesFromApi() du movieSvc
     this.movieSvc.getNextMoviesFromApi();
   }
