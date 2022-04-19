@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MovieModel } from '../models/movie.model';
 import { MovieService } from '../services/movie.service';
+
+
 
 @Component({
   selector: 'app-list',
@@ -7,12 +10,15 @@ import { MovieService } from '../services/movie.service';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-
-  movies:Array<any> = []
+ 
+  movies:Array<MovieModel> = []
   /* injecter un objet http de la class HttpClient*/ 
   constructor(private movieSvc:MovieService) { }
 
   ngOnInit(): void {
+
+
+
     // 1 on fait la request HTTP à theMovieDB
     this.movieSvc.getMoviesFromApi();
     // 2 on s'abonne à movies$ (un Observable qui contient les movies)
