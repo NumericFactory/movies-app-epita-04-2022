@@ -30,7 +30,7 @@ export class MovieService {
     Nos components peuvent consommer : 
     > this.movieSvc.movies$.subscribe()
   */
-  get movies$() {
+  get movies$():Observable<any> {
     return this._movies$.asObservable();
     // on retourne un Observable
     // nous ne souhaitons pas exposer directement 

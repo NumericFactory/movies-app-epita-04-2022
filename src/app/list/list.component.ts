@@ -22,7 +22,7 @@ export class ListComponent implements OnInit {
   getUrlImage(movieImageString:string | null ) {
     return (movieImageString!=null &&movieImageString!='') 
             ? 'https://image.tmdb.org/t/p/w500'+movieImageString
-            : 'https://via.placeholder.com/500x400.png?text=no+image'
+            : 'https://via.placeholder.com/500x281.png?text=no+image'
   }
 
   /* Au clic sur "films suivants" */
