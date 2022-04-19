@@ -25,7 +25,7 @@ export class MovieService {
   constructor(private http:HttpClient ) { }
 
   /* 
-
+    
   */
   get movies$() {
     return this._movies$.asObservable()
