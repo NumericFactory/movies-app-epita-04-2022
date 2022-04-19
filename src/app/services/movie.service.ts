@@ -44,19 +44,20 @@ export class MovieService {
     > Faire une requete HTTP à l'API theMovieDB
     > ET charger en valeur de movies$, la réponse (le tableau d'objets movies)
   */
-  public getMoviesFromApi() {
+  public getMoviesFromApi():void {
      this.http.get(this._url+'&page='+this._currentPage).subscribe(
        (response:any) => {
          this._movies$.next(response.results)
         }
      )
   }
+  
   /*
     > Faire une requete HTTP à l'API theMovieDB (sur la page suivant)
     > push dans le tableau de movies les 20 films suivants
     > ET charger en valeur de movies$, le tableau de movies
   */
-  getNextMoviesFromApi() {
+  getNextMoviesFromApi():void {
    // 0 incrementer this.currentPage;
    this._currentPage += 1
    // 1 faire la request des 20 films suivants (page suivante)
