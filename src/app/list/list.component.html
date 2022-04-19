@@ -1,0 +1,14 @@
+<div class="row">
+
+    <div *ngFor="let movie of movies" class="col-12 col-lg-2">
+        <!-- CARD-->
+        <div class="card">
+            <img [src]="getUrlImage(movie.backdrop_path)" alt="">
+            <div class="card-body">
+                <h2>{{movie.title}}</h2>  
+            </div>
+        </div>
+        <!-- FIN CARD-->
+    </div>
+
+</div>
