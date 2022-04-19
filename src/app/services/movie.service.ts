@@ -20,17 +20,27 @@ export class MovieService {
     - on peut s'abonner à cette source via la méthode .subcribe()
     - on peut pousser une nouvelle donnée via la methode .next(value)
   */
-  movies$:BehaviorSubject<any> = new BehaviorSubject([])
+  private _movies$:BehaviorSubject<any> = new BehaviorSubject([])
 
   constructor(private http:HttpClient ) { }
 
+  /* 
+
+  */
+  get movies$() {
+    return this._movies$.asObservable()
+  }
+
+  set movies$(movies:any) {
+    this._movies$.next(movies)
+  }
   /*
     > Faire une requete HTTP à l'API theMovieDB
     > ET charger en valeur de movies$, la réponse (le tableau d'objets movies)
   */
   public getMoviesFromApi() {
      this.http.get(this._url).subscribe(
-       (response:any) => this.movies$.next(response.results)
+       (response:any) => this._movies$.next(response.results)
      )
   }
   /*
@@ -41,4 +51,7 @@ export class MovieService {
   getNextMoviesFromApi() {
    
   }
+
+
+  
 }

@@ -22,9 +22,7 @@ export class ListComponent implements OnInit {
     this.movieSvc.getMoviesFromApi();
     
     // 2 on s'abonne à movies$
-    this.movieSvc.movies$.subscribe( 
-      (movies:any) => this.movies = movies
-    );
+    this.movieSvc.movies$.subscribe( (data:any) => this.movies = data );
 
   }
 
