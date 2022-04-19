@@ -1,5 +1,3 @@
-import { HttpClient } from '@angular/common/http';
-import { ThisReceiver } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { MovieService } from '../services/movie.service';
 
