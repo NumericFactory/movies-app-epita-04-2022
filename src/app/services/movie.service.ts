@@ -49,6 +49,8 @@ export class MovieService {
   public getMoviesFromApi():void {
      this.http.get(this._url+'&page='+this._currentPage)
      .pipe( 
+        // avec l'opérateur map de RxJS, 
+        // on va mapper la reponse de l'API TMDB
         map( (apiResponse:any) => 
           apiResponse.results.map( (movie:any) => new MovieModel(movie))
         ) 
@@ -73,6 +75,8 @@ export class MovieService {
    this.http.get(this._url+'&page='+this._currentPage)
    // pipe : permet de transformer un Observable et retourne un Observable
    .pipe( 
+      // avec l'opérateur map de RxJS, 
+      // on va mapper la reponse de l'API TMDB
       map( (apiResponse:any) => 
         apiResponse.results.map( (movie:any) => new MovieModel(movie))
       ) 
