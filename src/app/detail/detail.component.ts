@@ -68,8 +68,8 @@ export class DetailComponent implements OnInit {
     C'est ici qu'il faut unsubscribe nos subcriptions
 
   */ 
-  // ngOnDestroy() {
-  //   this.subscription.unsubscribe();
-  // }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 
 }
