@@ -24,13 +24,14 @@ export class DetailComponent implements OnInit {
     // Faire la request pour récuperer la listes des videos B.A 
     this.movieSvc.getVideosOfMovie(this.movieId).subscribe( 
       response => {
-        this.movieVideo = response.results.find( (el:any) => el.site == 'Youtube') 
+        this.movieVideo = response.results.find( (el:any) =>  el.site == 'YouTube') 
         console.log(this.movieVideo); 
       }
-      
-    )
+    ) 
+  }
 
-  
+  getVideoUrl(videoKey:string) {
+    return 'https://www.youtube.com/embed/'+videoKey
   }
 
 }
