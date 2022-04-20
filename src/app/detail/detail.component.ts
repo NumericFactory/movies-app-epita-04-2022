@@ -10,6 +10,7 @@ import { MovieService } from '../services/movie.service';
 export class DetailComponent implements OnInit {
 
   movieId:number = 0
+  movieVideo:any;
 
   constructor(
     private activatedRoute:ActivatedRoute, 
@@ -21,7 +22,13 @@ export class DetailComponent implements OnInit {
     // renvoie un objet des paramètres nommés de l'url {id:1234}
     this.movieId = this.activatedRoute.snapshot.params['id'];
     // Faire la request pour récuperer la listes des videos B.A 
-    this.movieSvc.getVideosOfMovie(this.movieId).subscribe( response => console.log(response))
+    this.movieSvc.getVideosOfMovie(this.movieId).subscribe( 
+      response => {
+        this.movieVideo = response.results.find( (el:any) => el.site == 'Youtube') 
+        console.log(this.movieVideo); 
+      }
+      
+    )
 
   
   }
