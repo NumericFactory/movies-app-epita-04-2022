@@ -5,6 +5,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { MovieModel } from '../models/movie.model';
 
 @Injectable({
@@ -15,7 +16,8 @@ import { MovieModel } from '../models/movie.model';
 export class MovieService {
 
   private _currentPage:number = 1
-  private _url:string = 'https://api.themoviedb.org/3/discover/movie?api_key=efdeb661aaa006b1e4f36f990a5fd8fd&language=fr';
+  private _TMDB_API_URL = environment.apiTmdb;
+  private _TMDB_APIKEY = environment.apikey_tmdb;
   /*
     les subjects et behaviorSubjects sont des Observable particuliers
     - on peut s'abonner à cette source via la méthode .subscribe()
@@ -42,12 +44,17 @@ export class MovieService {
   set movies$(movies:any) {
     this._movies$.next(movies)
   }
+
+  public getVideosOfMovie(movieId:number) {
+    
+  }
+
   /*
     > Faire une requete HTTP à l'API theMovieDB
     > ET charger en valeur de movies$, la réponse (le tableau d'objets movies)
   */
   public getMoviesFromApi():void {
-     this.http.get(this._url+'&page='+this._currentPage)
+     this.http.get(this._TMDB_API_URL+'/discover/movie?api_key='+this._TMDB_APIKEY+'&language=fr&page='+this._currentPage)
      .pipe( 
         // avec l'opérateur map de RxJS, 
         // on va mapper la reponse de l'API TMDB
@@ -72,7 +79,7 @@ export class MovieService {
    // 0 incrementer this.currentPage;
    this._currentPage += 1
    // 1 faire la request des 20 films suivants (page suivante)
-   this.http.get(this._url+'&page='+this._currentPage)
+   this.http.get(this._TMDB_API_URL+'/discover/movie?api_key='+this._TMDB_APIKEY+'&language=fr&page='+this._currentPage)
    // pipe : permet de transformer un Observable et retourne un Observable
    .pipe( 
       // avec l'opérateur map de RxJS, 
