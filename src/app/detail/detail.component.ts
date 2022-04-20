@@ -1,4 +1,4 @@
-import { Component, OnInit, SecurityContext } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { MovieService } from '../services/movie.service';
@@ -16,6 +16,7 @@ export class DetailComponent implements OnInit {
   constructor(
     private activatedRoute:ActivatedRoute, 
     private movieSvc:MovieService,
+    private sanitizer: DomSanitizer
     ) { }
 
   ngOnInit(): void {
@@ -43,7 +44,9 @@ export class DetailComponent implements OnInit {
   }
 
   getVideoUrl(videoKey:string) {
-    let url = 'https://www.youtube.com/embed/'+videoKey;
+    let url =  'https://www.youtube.com/embed/'+videoKey;
+    console.log(this.sanitizer.bypassSecurityTrustResourceUrl(url));
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url)
   }
 
 }
