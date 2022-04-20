@@ -21,9 +21,7 @@ export class DetailComponent implements OnInit {
     // renvoie un objet des paramètres nommés de l'url {id:1234}
     this.movieId = this.activatedRoute.snapshot.params['id'];
     // Faire la request pour récuperer la listes des videos B.A 
-    this.movieSvc.getVideosOfMovie(this.movieId).subscribe( 
-      response => console.log(response)
-    )
+    this.movieSvc.getVideosOfMovie(this.movieId).subscribe( response => console.log(response))
 
   
   }
