@@ -4,7 +4,7 @@
 */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { MovieModel } from '../models/movie.model';
 
@@ -24,7 +24,20 @@ export class MovieService {
     - on peut pousser une nouvelle donnée via la methode .next(value)
   */
  
+  /* 
+    Un subject est un Observable particulier sur lequel : 
+    > on peut subscribe()
+    > on peut next() 
+
+    BehaviorSubject : au moment où on subscribe, on récupere la dernière valeur
+    à l'instanciation il oblige à passer une valeur 
+
+    Subject : au moment où on subscribe, la methode ne peut récuperer 
+              que la PROCHAINE valeur
+
+  */
   private _movies$ = new BehaviorSubject<MovieModel[]>([])
+  private _movie$ = new BehaviorSubject<MovieModel>(null!);
  
 
   constructor(private http:HttpClient ) { }
@@ -70,6 +83,24 @@ export class MovieService {
         }
      )
   }
+
+  public getMovieFromApi(movieId:number) {
+    this.http.get(this._TMDB_API_URL+'/movie/'+movieId+'?api_key='+this._TMDB_APIKEY+'&language=fr')
+    .pipe( 
+       // avec l'opérateur map de RxJS, 
+       // on va mapper la reponse de l'API TMDB
+       map( (apiResponse:any) => 
+         new MovieModel(apiResponse)
+       ) 
+     ) // fin pipe() retourne un Observable
+    .subscribe(
+      (response:MovieModel) => {
+        console.log(response)
+        this._movie$.next(response)
+       }
+    )
+
+  }
   
   /*
     > Faire une requete HTTP à l'API theMovieDB (sur la page suivant)
@@ -95,7 +126,15 @@ export class MovieService {
      // 3 pousser la nouvelle donnée (tous les films) dans _movies$ (.next())
      this._movies$.next(allMovies);
    })
-  
+  }
+
+
+  setMovie(movie:MovieModel) {
+    this._movie$.next(movie)
+  }
+
+  get movie$() {
+    return this._movie$.asObservable()
   }
 
 

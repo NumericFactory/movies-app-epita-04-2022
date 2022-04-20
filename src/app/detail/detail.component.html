@@ -1,5 +1,14 @@
 <pre>{{ movieVideo | json }}</pre>
-<iframe *ngIf="movieVideo" [width]="movieVideo.size" height="auto" 
-        [src]="getVideoUrl(movieVideo.key)" 
-        frameborder="0"  
-        allowfullscreen></iframe>
+
+<div class="video-container">
+    <iframe *ngIf="movieVideo" [width]="16/9*movieVideo.size" [height]="movieVideo.size" 
+            [src]="getVideoUrl(movieVideo.key)" 
+            frameborder="0"
+            allowfullscreen></iframe>
+</div>
+
+<div *ngIf="movieSvc.movie$ | async as movie ">
+    <h1>{{movie.titre | uppercase}}</h1>
+    <p>{{movie.description}}</p>
+    <p>{{movie.date | date:'dd/MM/YYYY' }}</p>
+</div>

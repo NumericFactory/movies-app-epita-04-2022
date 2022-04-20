@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { MovieModel } from '../models/movie.model';
 import { MovieService } from '../services/movie.service';
 
 @Component({
@@ -12,10 +14,13 @@ export class DetailComponent implements OnInit {
 
   movieId:number = 0
   movieVideo:any;
+  // movie:any; 
+
+  subscription:Subscription;
 
   constructor(
     private activatedRoute:ActivatedRoute, 
-    private movieSvc:MovieService,
+    public movieSvc:MovieService,
     private sanitizer: DomSanitizer
     ) { }
 
@@ -41,12 +46,30 @@ export class DetailComponent implements OnInit {
         console.log(this.movieVideo); 
       }
     ) 
-  }
+
+    this.subscription =  this.movieSvc.movie$.subscribe( 
+      (data:MovieModel) => { 
+        if(data == undefined  || data == null) {
+          this.movieSvc.getMovieFromApi(this.movieId);
+        }
+      } 
+    )
+  } // Fin ngOnInit
 
   getVideoUrl(videoKey:string) {
     let url =  'https://www.youtube.com/embed/'+videoKey;
-    console.log(this.sanitizer.bypassSecurityTrustResourceUrl(url));
     return this.sanitizer.bypassSecurityTrustResourceUrl(url)
   }
+
+  /* 
+    ngOnDestroy() fait partie de méthodes du cycle de vie du component
+    Elle est exécutée par Angular "juste avant" la destruction du Component
+
+    C'est ici qu'il faut unsubscribe nos subcriptions
+
+  */ 
+  // ngOnDestroy() {
+  //   this.subscription.unsubscribe();
+  // }
 
 }

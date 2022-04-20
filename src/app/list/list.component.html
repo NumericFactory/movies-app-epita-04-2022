@@ -1,8 +1,9 @@
 <div class="row pb-5">
 
     <div *ngFor="let movie of movies" class="col-12 col-lg-2">
+        <pre>{{movie | json}}</pre>
         <!-- CARD-->
-        <div [routerLink]="['details', movie.id]" class="card">
+        <div (click)="navToDetail(movie)" [routerLink]="['details', movie.id]" class="card">
             <img [src]="getUrlImage(movie.image)" alt="">
             
             <div class="card-body">
