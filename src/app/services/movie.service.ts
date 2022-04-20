@@ -45,8 +45,8 @@ export class MovieService {
     this._movies$.next(movies)
   }
 
-  public getVideosOfMovie(movieId:number) {
-    this.http.get(this._TMDB_API_URL+'/movie/'+movieId+'/videos?api_key='+this._TMDB_APIKEY+'&language=fr',)
+  public getVideosOfMovie(movieId:number):Observable<any> {
+    return this.http.get(this._TMDB_API_URL+'/movie/'+movieId+'/videos?api_key='+this._TMDB_APIKEY+'&language=fr')
   }
 
   /*
