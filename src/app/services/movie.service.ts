@@ -46,7 +46,7 @@ export class MovieService {
   }
 
   public getVideosOfMovie(movieId:number) {
-    
+    this.http.get(this._TMDB_API_URL+'/movie/'+movieId+'/videos?api_key='+this._TMDB_APIKEY+'&language=fr',)
   }
 
   /*
