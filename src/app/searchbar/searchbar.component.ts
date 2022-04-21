@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MovieModel } from '../shared/models/movie.model';
+import { MovieService } from '../shared/services/movie.service';
 
 @Component({
   selector: 'app-searchbar',
@@ -6,17 +8,22 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./searchbar.component.scss']
 })
 export class SearchbarComponent implements OnInit {
+  // foundMovies:MovieModel[] = [];
 
-  constructor() { }
+  constructor(public movieSvc:MovieService) { }
 
   ngOnInit(): void {
-    // écouter foundMouvies$
+    // écouter foundMovies$
+    // this.movieSvc.foundMovies$.subscribe(
+    //   data =>  this.foundMovies = foundMovies
+    // )
+
   }
 
   searchMoviesAction(searchString: string) {
     console.log(searchString);
-    
-
+    // faire la request
+    this.movieSvc.searchMoviesFromApi(searchString)
   }
 
 }

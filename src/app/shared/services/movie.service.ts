@@ -2,8 +2,9 @@
   Ce service a été généré à l'aide de la commande :
   >  ng generate service services/movie
 */
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { MovieModel } from '../models/movie.model';
@@ -41,15 +42,36 @@ export class MovieService {
   private _foundMovies$ = new BehaviorSubject<MovieModel[]>([]);
 
   constructor(private http:HttpClient ) { }
-
   /*
      rôle : request api theMovieDB pour rechercher des films
      endpoint : /search/movie
      queryString : api_key, language, query
   */
   searchMoviesFromApi(searchString:string):void {
-    // faire la requête  
-    // assigner la réponse en valeur de _foundMovies$
+    if(searchString.trim().length>0) {
+      // faire la requête 
+      let endPoint = '/search/movie';
+      // let queryString = '?api_key='+this._TMDB_APIKEY+'&language=fr&query='+searchString;
+      
+      let params = new HttpParams()
+      .set('api_key', this._TMDB_APIKEY)
+      .set('language', 'fr')
+      .set('query', searchString);
+      console.log(params)
+  
+      this.http.get(this._TMDB_API_URL+endPoint, {params} )
+       // mapper la reponse en tabeau de MovieModel 
+      .pipe( 
+        map( (apiResponse:any) => apiResponse.results.map( 
+          (movie: any) => new MovieModel(movie) ) 
+        )
+      )
+      .subscribe( (data:MovieModel[]) => this._foundMovies$.next(data))
+      // assigner la réponse en valeur de _foundMovies$ avec .next()
+    }
+    else {
+      this._foundMovies$.next([]);
+    }
   }
 
   /* 
@@ -138,13 +160,20 @@ export class MovieService {
    })
   }
 
-
   setMovie(movie:MovieModel) {
     this._movie$.next(movie)
   }
 
   get movie$() {
     return this._movie$.asObservable()
+  }
+
+  resetFoundMovies$() {
+    this._foundMovies$.next([])
+  }
+
+  get foundMovies$() {
+    return this._foundMovies$.asObservable()
   }
 
 

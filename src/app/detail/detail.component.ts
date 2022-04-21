@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { MovieModel } from '../models/movie.model';
-import { MovieService } from '../services/movie.service';
+import { MovieModel } from '../shared/models/movie.model';
+import { MovieService } from '../shared/services/movie.service';
 
 @Component({
   selector: 'app-detail',
@@ -51,7 +51,7 @@ export class DetailComponent implements OnInit {
 
     this.subscriptions.push(this.movieSvc.movie$.subscribe( 
         (data:MovieModel) => { 
-          if(data == undefined  || data == null) {
+          if(data == undefined  || data == null || data.id != this.movieId) {
             this.movieSvc.getMovieFromApi(this.movieId);
           }
         } 

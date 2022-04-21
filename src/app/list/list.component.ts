@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { MovieModel } from '../models/movie.model';
-import { MovieService } from '../services/movie.service';
+import { MovieModel } from '../shared/models/movie.model';
+import { MovieService } from '../shared/services/movie.service';
 
 
 
@@ -21,7 +21,7 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
 
-
+    this.movieSvc.resetFoundMovies$();
     // 2 on s'abonne à movies$ (un Observable qui contient les movies)
     this.subscription = this.movieSvc.movies$.subscribe( (data:Array<MovieModel>) => {
       if(data.length==0) {
