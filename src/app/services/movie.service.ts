@@ -38,21 +38,18 @@ export class MovieService {
   */
   private _movies$ = new BehaviorSubject<MovieModel[]>([])
   private _movie$ = new BehaviorSubject<MovieModel>(null!);
-
   private _foundMovies$ = new BehaviorSubject<MovieModel[]>([]);
 
-
-
   constructor(private http:HttpClient ) { }
-
 
   /*
      rôle : request api theMovieDB pour rechercher des films
      endpoint : /search/movie
      queryString : api_key, language, query
   */
-  searchMoviesFromApi(searchString:string) {
-
+  searchMoviesFromApi(searchString:string):void {
+    // faire la requête  
+    // assigner la réponse en valeur de _foundMovies$
   }
 
   /* 
