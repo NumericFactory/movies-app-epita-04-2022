@@ -1,7 +1,10 @@
+<h1>Les films à l'affiche</h1>
+<!-- <app-searchbar> -->
+<app-searchbar></app-searchbar>
+
 <div class="row pb-5">
 
-    <div *ngFor="let movie of movies" class="col-12 col-lg-2">
-        <pre>{{movie | json}}</pre>
+    <div *ngFor="let movie of movieSvc.movies$ | async" class="col-12 col-lg-2">
         <!-- CARD-->
         <div (click)="navToDetail(movie)" [routerLink]="['details', movie.id]" class="card">
             <img [src]="getUrlImage(movie.image)" alt="">

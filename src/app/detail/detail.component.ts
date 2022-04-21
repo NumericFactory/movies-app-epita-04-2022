@@ -16,13 +16,14 @@ export class DetailComponent implements OnInit {
   movieVideo:any;
   // movie:any; 
 
-  subscription:Subscription;
-
+  subscriptions:Subscription[] = [] ;
   constructor(
     private activatedRoute:ActivatedRoute, 
     public movieSvc:MovieService,
     private sanitizer: DomSanitizer
-    ) { }
+    ) { 
+
+    }
 
   ngOnInit(): void {
     this.getVideoUrl('123')
@@ -40,20 +41,25 @@ export class DetailComponent implements OnInit {
       Si nous avions besoin d'écouter un changement ultérieur,
       il serait préférable de mettre en place un Subject() côté service
     */
-    this.movieSvc.getVideosOfMovie(this.movieId).subscribe( 
-      response => {
-        this.movieVideo = response.results.find( (el:any) =>  el.site == 'YouTube') 
-        console.log(this.movieVideo); 
-      }
+    this.subscriptions.push(this.movieSvc.getVideosOfMovie(this.movieId).subscribe( 
+        response => {
+          this.movieVideo = response.results.find( (el:any) =>  el.site == 'YouTube') 
+          console.log(this.movieVideo); 
+        }
+      )
     ) 
 
-    this.subscription =  this.movieSvc.movie$.subscribe( 
-      (data:MovieModel) => { 
-        if(data == undefined  || data == null) {
-          this.movieSvc.getMovieFromApi(this.movieId);
-        }
-      } 
+    this.subscriptions.push(this.movieSvc.movie$.subscribe( 
+        (data:MovieModel) => { 
+          if(data == undefined  || data == null) {
+            this.movieSvc.getMovieFromApi(this.movieId);
+          }
+        } 
+      )
     )
+
+    console.log(this.movieSvc.movie$)
+
   } // Fin ngOnInit
 
   getVideoUrl(videoKey:string) {
@@ -69,7 +75,9 @@ export class DetailComponent implements OnInit {
 
   */ 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    for(let sub of this.subscriptions) {
+      sub.unsubscribe()
+    }
   }
 
 }

@@ -12,10 +12,10 @@ import { MovieService } from '../services/movie.service';
 })
 export class ListComponent implements OnInit {
  
-  subscription:Subscription;
+  subscription:Subscription = new Subscription();
   movies:Array<MovieModel> = []
   /* injecter un objet http de la class HttpClient*/ 
-  constructor(private movieSvc:MovieService) { 
+  constructor(public movieSvc:MovieService) { 
     console.log(this)
   }
 
@@ -23,14 +23,14 @@ export class ListComponent implements OnInit {
 
 
     // 2 on s'abonne à movies$ (un Observable qui contient les movies)
-    this.subscription = this.movieSvc.movies$.subscribe( (data:any) => {
+    this.subscription = this.movieSvc.movies$.subscribe( (data:Array<MovieModel>) => {
       if(data.length==0) {
           // 1 on fait la request HTTP à theMovieDB
           this.movieSvc.getMoviesFromApi(); 
       }
-      else {
-        this.movies = data
-      }
+      // else {
+      //   this.movies = data
+      // }
     });
   }
 
