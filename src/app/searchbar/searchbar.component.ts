@@ -10,6 +10,12 @@ export class SearchbarComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
+  }
+
+  searchMoviesAction(searchString: string) {
+    console.log(searchString);
+    
   }
 
 }

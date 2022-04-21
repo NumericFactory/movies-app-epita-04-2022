@@ -1,1 +1,1 @@
-<input placeholder="Rechercher des films..." class="form-control" type="text">
+<input #userInput (keyup)="searchMoviesAction(userInput.value)" placeholder="Rechercher des films..." class="form-control" type="text">
