@@ -38,9 +38,17 @@ export class MovieService {
   */
   private _movies$ = new BehaviorSubject<MovieModel[]>([])
   private _movie$ = new BehaviorSubject<MovieModel>(null!);
- 
+
+  private _foundMovies$ = new BehaviorSubject<MovieModel[]>([]);
+
+
 
   constructor(private http:HttpClient ) { }
+
+
+  searchMoviesFromApi(searchString:string) {
+    
+  }
 
   /* 
     rôle : getter de _movies$
