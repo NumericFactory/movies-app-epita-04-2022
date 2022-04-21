@@ -15,7 +15,7 @@ export class SearchbarComponent implements OnInit {
 
   searchMoviesAction(searchString: string) {
     console.log(searchString);
-
+    
 
   }
 
