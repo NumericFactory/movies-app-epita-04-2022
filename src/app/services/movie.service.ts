@@ -46,8 +46,13 @@ export class MovieService {
   constructor(private http:HttpClient ) { }
 
 
+  /*
+     rôle : request api theMovieDB pour rechercher des films
+     endpoint : /search/movie
+     queryString : api_key, language, query
+  */
   searchMoviesFromApi(searchString:string) {
-    
+
   }
 
   /* 
