@@ -30,7 +30,7 @@ export class SearchbarComponent implements OnInit {
    * si 0 caractères dans le champ de recherche
    */
   searchMoviesAction(searchString: string) {
-
+    
     console.log(searchString);
     // faire la request
     this.movieSvc.searchMoviesFromApi(searchString);

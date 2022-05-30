@@ -2,6 +2,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SearchbarComponent } from './searchbar.component';
 
+/**
+   * 
+   * TEST 1
+   * 
+   * si 0 caractères dans le champ de recherche
+   * Attendu : componentInstance.foundMovies = []
+   */
+
 describe('SearchbarComponent', () => {
   let component: SearchbarComponent;
   let fixture: ComponentFixture<SearchbarComponent>;
