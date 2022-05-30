@@ -66,7 +66,8 @@ export class MovieService {
           (movie: any) => new MovieModel(movie) ) 
         )
       )
-      .subscribe( (data:MovieModel[]) => this._foundMovies$.next(data))
+      .subscribe( (data:MovieModel[]) => 
+      this._foundMovies$.next(data))
       // assigner la réponse en valeur de _foundMovies$ avec .next()
     }
     else {

@@ -8,9 +8,11 @@ import { MovieService } from '../shared/services/movie.service';
   styleUrls: ['./searchbar.component.scss']
 })
 export class SearchbarComponent implements OnInit {
-  // foundMovies:MovieModel[] = [];
+  foundMovies:MovieModel[] = [];
 
-  constructor(public movieSvc:MovieService) { }
+  constructor(public movieSvc:MovieService) { 
+    console.log(this)
+  }
 
   ngOnInit(): void {
     // écouter foundMovies$
@@ -19,11 +21,23 @@ export class SearchbarComponent implements OnInit {
     // )
 
   }
-
+  /**
+   * 
+   * @param searchString 
+   * si moins de 3 caractères on ne déclenche pas la request
+   * si >= 3 caracteres, on appelle searchMoviesFromApi
+   * 
+   * si 0 caractères dans le champ de recherche
+   */
   searchMoviesAction(searchString: string) {
+
     console.log(searchString);
     // faire la request
-    this.movieSvc.searchMoviesFromApi(searchString)
+    this.movieSvc.searchMoviesFromApi(searchString);
+    // s'abonner
+    this.movieSvc.foundMovies$
+    .subscribe(data => this.foundMovies = data);
+    
   }
 
 }
