@@ -30,4 +30,12 @@ describe('SearchbarComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  
+  /**
+   * 
+   * TEST 1
+   * 
+   * si 0 caractères dans le champ de recherche de la vue HTML
+   * Attendu : componentInstance.foundMovies = []
+   */
 });
