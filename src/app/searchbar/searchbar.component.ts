@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { MovieModel } from '../shared/models/movie.model';
 import { MovieService } from '../shared/services/movie.service';
 
@@ -9,6 +10,7 @@ import { MovieService } from '../shared/services/movie.service';
 })
 export class SearchbarComponent implements OnInit {
   foundMovies:MovieModel[] = [];
+  subscription:Subscription = new Subscription()
 
   constructor(public movieSvc:MovieService) { 
     console.log(this)
@@ -16,10 +18,12 @@ export class SearchbarComponent implements OnInit {
 
   ngOnInit(): void {
     // écouter foundMovies$
-    // this.movieSvc.foundMovies$.subscribe(
-    //   data =>  this.foundMovies = foundMovies
-    // )
-
+    this.subscription = this.movieSvc.foundMovies$.subscribe(
+         data =>  {
+           console.log('data : ',data)
+           this.foundMovies = data
+          }
+    )  
   }
   /**
    * 
@@ -30,14 +34,16 @@ export class SearchbarComponent implements OnInit {
    * si 0 caractères dans le champ de recherche
    */
   searchMoviesAction(searchString: string) {
-    
+
     console.log(searchString);
     // faire la request
     this.movieSvc.searchMoviesFromApi(searchString);
-    // s'abonner
-    this.movieSvc.foundMovies$
-    .subscribe(data => this.foundMovies = data);
     
+  }
+
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe()
   }
 
 }
