@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
+import { RouterModule } from '@angular/router';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { AppRoutingModule } from '../app-routing.module';
 import { MovieModel } from '../shared/models/movie.model';
 import { MovieService } from '../shared/services/movie.service';
 
@@ -20,7 +22,8 @@ describe('SearchbarComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ SearchbarComponent ],
-      providers: [{provide: MovieService, useClass:MockMovieService} ]
+      providers: [{provide: MovieService, useClass:MockMovieService} ],
+      imports: [AppRoutingModule],
     })
     .compileComponents();
   });
@@ -60,17 +63,37 @@ describe('SearchbarComponent', () => {
    *  > on execute la reuqete HTTP, 
    *  > foundMovies contient les résultats Tableau de MobvieModel
    */
-  //it()
+  it('should not request if userInput<3 chars', () => { 
+     // on simule l'envoi d'un event sur le champ de recherche
+     component.searchMoviesAction('ba');
+     expect(component.foundMovies).toEqual([])
+  })
 
+  it('should foundMovies is an array of MovieModel if userInput>=3 chars', () => {
+     // on simule l'envoi d'un event sur le champ de recherche
+     component.searchMoviesAction('bat');
+     expect(component.foundMovies).toEqual([{
+      id: 1,
+      titre: 'batman', 
+      date: new Date('2022-01-01'),
+      image_portrait: 'imgP.jpg', 
+      description: 'synopsis1', 
+      score: 3,
+      image: 'image1.jpg'
+    }])
+    expect(component.foundMovies).toHaveSize(1)
+
+  });
 });
 
 
 class MockMovieService {
-   movies:MovieModel[]  = [
+
+  movies:MovieModel[]  = [
      {
       id: 1,
-      titre: 'titre1', 
-      date: new Date(),
+      titre: 'batman', 
+      date: new Date('2022-01-01'),
       image_portrait: 'imgP.jpg', 
       description: 'synopsis1', 
       score: 3,
@@ -78,8 +101,8 @@ class MockMovieService {
     },
     {
       id: 2,
-      titre: 'titre2', 
-      date: new Date(),
+      titre: 'Robin', 
+      date: new Date('2022-02-01'),
       image_portrait: 'imgP2.jpg', 
       description: 'synopsis2', 
       score: 4, 
@@ -87,8 +110,8 @@ class MockMovieService {
     },
     {
       id: 3,
-      titre: 'titre3', 
-      date: new Date(),
+      titre: 'Superman', 
+      date: new Date('2022-02-01'),
       image_portrait: 'imgP3.jpg', 
       description: 'synopsis3', 
       score: 1, 
@@ -96,17 +119,19 @@ class MockMovieService {
     },
    ];
 
-   private _movies$ = of(this.movies)
+   private _foundMovies$:BehaviorSubject<MovieModel[]> = new BehaviorSubject<MovieModel[]>(this.movies)
+
+   private _movies$:Observable<MovieModel[]> = new Observable()
 
   searchMoviesFromApi(searchString: string) {
-      this._movies$ = of(this.movies.filter(m => m.titre.includes(searchString)))
+      let filteredMovies:MovieModel[] = this.movies.filter(m => m.titre.includes(searchString));
+      console.log('filterdMovies', filteredMovies);
+      this._foundMovies$.next(filteredMovies);
   }
   
 
   get foundMovies$():Observable<MovieModel[]> {
-     return this._movies$
+    return this._foundMovies$;
   }
 
 }
-
-  

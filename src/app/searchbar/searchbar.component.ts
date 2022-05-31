@@ -41,8 +41,13 @@ export class SearchbarComponent implements OnInit {
       this.foundMovies = [];
     }
     else {
-      // faire la request
-      this.movieSvc.searchMoviesFromApi(searchString);
+      if(searchString.trim().length>=3) {
+        // faire la request
+        this.movieSvc.searchMoviesFromApi(searchString);
+      }
+      else {
+        this.foundMovies = [];
+      }
     }
   }
 
