@@ -173,7 +173,7 @@ export class MovieService {
     this._foundMovies$.next([])
   }
 
-  get foundMovies$() {
+  get foundMovies$():Observable<MovieModel[]> {
     return this._foundMovies$.asObservable()
   }
 

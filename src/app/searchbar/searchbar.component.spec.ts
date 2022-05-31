@@ -33,6 +33,7 @@ describe('SearchbarComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    // component n'est pas null ni undefined
   });
   
   /**
@@ -42,7 +43,25 @@ describe('SearchbarComponent', () => {
    * si 0 caractères dans le champ de recherche de la vue HTML
    * Attendu : componentInstance.foundMovies = []
    */
+  it('should foundMovies=[] if userInput string=0 chars', () => { 
+    // on simule l'envoi d'un event sur le champ de recherche
+    component.searchMoviesAction('');
+    // on attend que foundMovies soit vide
+    expect(component.foundMovies).toEqual([]);
+  })
   //it()
+
+    /**
+   * 
+   * TEST 2
+   * 
+   * si 3 caractères ou plus dans le champ de recherche de la vue HTML
+   * Attendu : 
+   *  > on execute la reuqete HTTP, 
+   *  > foundMovies contient les résultats Tableau de MobvieModel
+   */
+  //it()
+
 });
 
 
@@ -79,12 +98,15 @@ class MockMovieService {
 
    private _movies$ = of(this.movies)
 
-   get foundMovies$():Observable<MovieModel[]> {
-     return this._movies$
-   }
-
-
-
+  searchMoviesFromApi(searchString: string) {
+      this._movies$ = of(this.movies.filter(m => m.titre.includes(searchString)))
   }
+  
+
+  get foundMovies$():Observable<MovieModel[]> {
+     return this._movies$
+  }
+
+}
 
   
