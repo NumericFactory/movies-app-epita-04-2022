@@ -28,7 +28,7 @@ export class DetailComponent implements OnInit {
   ngOnInit(): void {
     this.getVideoUrl('123')
     console.log(this.activatedRoute.snapshot.params); // renvoie un objet des paramètres nommés de l'url {id:1234}
-    
+    // this.activatedRoute.params.subscribe()
     // 1 Récupérer l'ID de la vidéo dans l'URL
     this.movieId = this.activatedRoute.snapshot.params['id'];
 

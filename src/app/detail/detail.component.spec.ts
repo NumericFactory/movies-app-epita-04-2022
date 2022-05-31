@@ -1,7 +1,9 @@
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 import { MovieService } from '../shared/services/movie.service';
 
 import { DetailComponent } from './detail.component';
@@ -10,21 +12,26 @@ describe('DetailComponent', () => {
   let component: DetailComponent;
   let fixture: ComponentFixture<DetailComponent>;
   let debug : DebugElement
-  let movieSvc;
+  let movieSvc:MovieService;
+  //let http: HttpClient;
+  //movieSvc = new MovieService(http);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ DetailComponent ],
       providers:[ {
         provide: ActivatedRoute, 
-        useValue: {id:123}
-      }]
+        useValue: {snapshot:{params:[{id:123}]}}
+      }
+      ],
+      imports: [HttpClientModule]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    movieSvc =jasmine.createSpyObj('MovieService', ['getMovieFromApi', 'getVideosOfMovie'] )
+    
+    movieSvc=jasmine.createSpyObj('MovieService', ['getMovieFromApi', 'getVideosOfMovie'] )
     console.log('movieSvc',movieSvc)
     fixture = TestBed.createComponent(DetailComponent);
     component = fixture.componentInstance;
