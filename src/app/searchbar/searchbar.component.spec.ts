@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AppRoutingModule } from '../app-routing.module';
 import { MovieModel } from '../shared/models/movie.model';
@@ -22,8 +23,11 @@ describe('SearchbarComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ SearchbarComponent ],
-      providers: [{provide: MovieService, useClass:MockMovieService} ],
-      imports: [AppRoutingModule],
+      providers: [{provide: MovieService, useClass:MockMovieService}  ],
+      imports: [
+        RouterTestingModule,
+        //AppRoutingModule
+      ],
     })
     .compileComponents();
   });

@@ -44,7 +44,7 @@ export class DetailComponent implements OnInit {
     this.subscriptions.push(this.movieSvc.getVideosOfMovie(this.movieId).subscribe( 
         response => {
           this.movieVideo = response.results.find( (el:any) =>  el.site == 'YouTube') 
-          console.log(this.movieVideo); 
+          console.log('movieVideo', this.movieVideo); 
         }
       )
     ) 
